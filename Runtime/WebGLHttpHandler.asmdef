@@ -1,0 +1,16 @@
+{
+    "name": "WebGLHttpHandler",
+    "rootNamespace": "",
+    "references": [
+        "GUID:694275f85bc6e9742851388ff40be8fc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

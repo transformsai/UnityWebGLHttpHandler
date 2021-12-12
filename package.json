@@ -1,0 +1,22 @@
+{
+  "name": "ai.transforms.webgl-http-handler",
+  "version": "0.1.0",
+  "displayName": "WebGL HttpHandler",
+  "description": "Allows WebGL unity builds to make HttpRequests using Fetch",
+  "unity": "2020.3",
+  "unityRelease": "15f2",
+  "documentationUrl": "https://github.com/transitional-forms-inc/UnityWebGLHttpHandler",
+  "dependencies": {
+    "ai.transforms.js-interop": "0.1.0"
+  },
+  "keywords": [
+    "grpc-web",
+    "grpc",
+    "protobuf"
+  ],
+  "author": {
+    "name": "Transitional Forms Inc",
+    "email": "developers@transforms.ai",
+    "url": "http://transforms.ai"
+  }
+}
