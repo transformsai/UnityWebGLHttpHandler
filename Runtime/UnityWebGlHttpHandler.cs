@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using JsInterop;
 using JsInterop.Internal;
 using JsInterop.Types;
-using Runtime = JsInterop.Runtime;
 
 // **Note** on `Task.ConfigureAwait(continueOnCapturedContext: true)` for the WebAssembly Browser.
 // The current implementation of WebAssembly for the Browser does not have a SynchronizationContext nor a Scheduler
@@ -20,11 +19,11 @@ using Runtime = JsInterop.Runtime;
 // remoted back to the main thread.  Most APIs only work on the main browser thread.
 // During discussions the concensus has been that it will not matter right now which value is used for ConfigureAwait
 // we should put this in place now.
-internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
+public sealed class UnityWebGlHttpHandler : HttpMessageHandler
 {
     // This partial implementation contains members common to Browser WebAssembly running on .NET Core.
-    private static readonly JsValue s_fetch = Runtime.GetGlobalValue("fetch");
-    private static readonly JsValue s_window = Runtime.GetGlobalValue("window");
+    private static readonly JsValue s_fetch = JsRuntime.GetGlobalValue("fetch");
+    private static readonly JsValue s_window = JsRuntime.GetGlobalValue("window");
 
     private static readonly string EnableStreamingResponse = ("WebAssemblyEnableStreamingResponse");
     private static readonly string FetchOptions = ("WebAssemblyFetchOptions");
@@ -38,7 +37,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
     private static bool StreamingSupported { get; } = GetIsStreamingSupported();
     private static bool GetIsStreamingSupported()
     {
-        using var streamingSupported = Runtime.CreateFunction("return typeof Response !== 'undefined' && 'body' in Response.prototype && typeof ReadableStream === 'function'");
+        using var streamingSupported = JsRuntime.CreateFunction("return typeof Response !== 'undefined' && 'body' in Response.prototype && typeof ReadableStream === 'function'");
         return streamingSupported.Call();
     }
 
@@ -128,6 +127,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
 
     public event Action<HttpRequestMessage> BeforeSend;
 
+
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
@@ -139,7 +139,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
 
         try
         {
-            var requestObject = Runtime.CreateObject();
+            var requestObject = JsRuntime.CreateObject();
 
 
             if (request.Properties.TryGetValue(FetchOptions, out var fetchOptions))
@@ -179,7 +179,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
                     var bytes = await request.Content.ReadAsByteArrayAsync()
                         .ConfigureAwait(continueOnCapturedContext: true);
 
-                    using (var uint8Buffer = Runtime.CreateSharedTypedArray(bytes))
+                    using (var uint8Buffer = JsRuntime.CreateSharedTypedArray(bytes))
                     {
                         requestObject.SetProp("body", uint8Buffer);
                     }
@@ -189,7 +189,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
             // Process headers
             // Cors has its own restrictions on headers.
             // https://developer.mozilla.org/en-US/docs/Web/API/Headers
-            using (var jsHeaders = Runtime.CreateHostObject("Headers").As<JsObject>())
+            using (var jsHeaders = JsRuntime.CreateHostObject("Headers").As<JsObject>())
             {
                 foreach (KeyValuePair<string, IEnumerable<string>> header in request.Headers)
                 {
@@ -215,7 +215,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
 
             UnityWebGlHttpReadStream unityWebGlHttpReadStream = null;
 
-            var abortController = Runtime.CreateHostObject("AbortController").As<JsObject>();
+            var abortController = JsRuntime.CreateHostObject("AbortController").As<JsObject>();
             var signal = abortController.GetProp("signal");
             requestObject.SetProp("signal", signal);
 
@@ -232,7 +232,7 @@ internal sealed class UnityWebGlHttpHandler : HttpMessageHandler
                abortCts.Dispose();
            }));
 
-            var args = Runtime.CreateArray();
+            var args = JsRuntime.CreateArray();
             if (request.RequestUri != null)
             {
                 args.Add(request.RequestUri.ToString());

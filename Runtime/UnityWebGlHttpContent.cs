@@ -30,7 +30,7 @@ internal sealed class UnityWebGlHttpContent : HttpContent
 
             using (var dataBuffer = dataBufferVal.As<JsObject>())
             {
-                using (var dataBinView = Runtime.CreateHostObject("Uint8Array", dataBuffer).As<JsTypedArray>())
+                using (var dataBinView = JsRuntime.CreateHostObject("Uint8Array", dataBuffer).As<JsTypedArray>())
                 {
                     _data = dataBinView.GetDataCopy<byte>();
                     _status.Dispose();
