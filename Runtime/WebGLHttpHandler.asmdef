@@ -1,10 +1,13 @@
 {
     "name": "WebGLHttpHandler",
-    "rootNamespace": "",
+    "rootNamespace": "TransformsAI.Unity.WebGL",
     "references": [
         "GUID:694275f85bc6e9742851388ff40be8fc"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

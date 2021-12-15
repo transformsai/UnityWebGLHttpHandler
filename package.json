@@ -1,13 +1,13 @@
 {
   "name": "ai.transforms.webgl-http-handler",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "displayName": "WebGL HttpHandler",
   "description": "Allows WebGL unity builds to make HttpRequests using Fetch",
   "unity": "2020.3",
   "unityRelease": "15f2",
   "documentationUrl": "https://github.com/transformsai/UnityWebGLHttpHandler",
   "dependencies": {
-    "ai.transforms.js-interop": "0.2.0"
+    "ai.transforms.js-interop": "0.3.0"
   },
   "keywords": [
     "grpc-web",
