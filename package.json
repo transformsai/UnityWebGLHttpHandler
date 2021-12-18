@@ -1,6 +1,6 @@
 {
   "name": "ai.transforms.webgl-http-handler",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "displayName": "WebGL HttpHandler",
   "description": "Allows WebGL unity builds to make HttpRequests using Fetch",
   "unity": "2020.3",
